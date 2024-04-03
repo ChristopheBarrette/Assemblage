@@ -1,7 +1,20 @@
 rm(list = ls())
+# install.packages("devtools")
+# devtools::install_github("ChristopheBarrette/Assemblage")
 
 # Install the package and load it
-
+library(glmnet)
+library(pracma)
+library(CVXR)
+library(foreach)
+library(doParallel)
+library(stats)
+library(methods)
+library(Matrix)
+library(iterators)
+library(datasets)
+library(base)
+library(Assemblage)
 
 #####Paths#######
 gen_path="~/"  #Specific to the computer
@@ -26,9 +39,6 @@ step.estim.window = 100000
 
 # Select the models to run 'comp','rank','blend','BInt','Bench'
 model.select = c('comp','rank','BInt','Bench')
-
-# Select the models for the graphs 'Target','Mod.comp','Mod.rank','Mod.blend','Mod.BInt','Mod.Bench'
-graph.select = c('Target','Mod.comp','Mod.rank')
 
 # Import the USA data set 
 load(paste(wd_data,"USA_PCE_lvl6_C.RData",sep=""))

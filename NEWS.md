@@ -1,3 +1,3 @@
-# Assemblage (development version)
+# Assemblage 1.0.1
 
 * Initial CRAN submission.

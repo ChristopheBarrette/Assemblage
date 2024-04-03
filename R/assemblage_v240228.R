@@ -128,7 +128,8 @@ assemblage = function( y, x, bench=c(), x.weight=c(), x.rank=c(), train.size=1, 
   InstalledPKGs <- names(installed.packages()[,'Package'])
   
   # Define the packages you want to install
-  myPKGs <- c("glmnet", "pracma", "CVXR", "foreach", "doParallel")
+  myPKGs <- c("glmnet", "pracma", "CVXR", "foreach", "doParallel",'stats','methods','Matrix'
+              ,'iterators','datasets','base')
   
   # Identify packages that are not installed
   InstallThesePKGs <- myPKGs[!myPKGs %in% InstalledPKGs]
@@ -137,8 +138,20 @@ assemblage = function( y, x, bench=c(), x.weight=c(), x.rank=c(), train.size=1, 
   if (length(InstallThesePKGs) > 0) {
     install.packages(InstallThesePKGs, repos = "http://cran.us.r-project.org")
   }
-  
 
+  # load packages
+  library(glmnet)
+  library(pracma)
+  library(CVXR)
+  library(foreach)
+  library(doParallel)
+  library(stats)
+  library(methods)
+  library(Matrix)
+  library(iterators)
+  library(datasets)
+  library(base)
+  
 # --- Set the cores for glmnet
 ncores=cores
 
@@ -643,7 +656,7 @@ nonneg.ridge.sum1 = function( y.in, x.in, x.weights, standardize.values, lambda.
         # --- MSE on the hold out set
         mse.stack[lam, ff] <- mean((y.in[d.out] - x.in[d.out,] %*% beta)^2)
       }
-      return(mse.stack[lam,])
+      return(as.numeric(mse.stack[lam,]))
     }
     # Stop the parallel backend
     stopCluster(cl)
@@ -738,7 +751,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
         # --- MSE on the hold out set
         mse.stack[lam, ff] <- mean((y.in[d.out] - x.in[d.out,] %*% beta)^2)
       }
-      return(mse.stack[lam,])
+      return(as.numeric(mse.stack[lam,]))
     }
     # Stop the parallel backend
     stopCluster(cl)
@@ -833,7 +846,7 @@ nonneg.ridge.mean = function( y.in, x.in, standardize.values, lambda.grid.C=c(),
         # --- MSE on the hold out set
         mse.stack[lam, ff] <- mean((y.in[d.out] - x.in[d.out,] %*% beta)^2)
       }
-      return(mse.stack[lam,])
+      return(as.numeric(mse.stack[lam,]))
     }
     # Stop the parallel backend
     stopCluster(cl)
