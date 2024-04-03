@@ -26,6 +26,5 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(Assemblage)
 ## basic example code
+## Go see Github example file
 ```
-
-Go see Github example file
