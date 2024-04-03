@@ -22,7 +22,6 @@ gen_path="~/"  #Specific to the computer
 wd_data =paste(gen_path,"data/",sep="")
 wd_function=paste(gen_path,"function/",sep="")
 
-
 cores = 1
 
 # Doing forecasting of the next 12 months so need to remove the last 12 observations for the rmse, etc.

@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Assemblage is to …
+The goal of Assemblage is to optimize the weights of subcomponents to
+maximize the predictive capability of an aggregate.
 
 ## Installation
 
@@ -22,11 +23,9 @@ devtools::install_github("ChristopheBarrette/Assemblage")
 
 This is a basic example which shows you how to solve a common problem:
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+``` r
+library(Assemblage)
+## basic example code
+```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+Go see Github example file
