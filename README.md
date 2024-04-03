@@ -6,8 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Assemblage is to optimize the weights of subcomponents to
-maximize the predictive capability of an aggregate.
+The goal of Assemblage is to …
 
 ## Installation
 
@@ -26,5 +25,4 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(Assemblage)
 ## basic example code
-## Go see Github example file
 ```
