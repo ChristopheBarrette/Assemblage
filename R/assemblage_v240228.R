@@ -706,7 +706,17 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # ncores = Number of cores to run the code, helps for glmnet function. (default is 1)
   #
   ################################################    
-
+  library(glmnet)
+  library(pracma)
+  library(CVXR)
+  library(foreach)
+  library(doParallel)
+  library(stats)
+  library(methods)
+  library(Matrix)
+  library(iterators)
+  library(datasets)
+  library(base)
   # --- Create folds for cross-validation
   fd=c(rep(1,nrow(x.in)/10),rep(2,nrow(x.in)/10),rep(3,nrow(x.in)/10),
        rep(4,nrow(x.in)/10),rep(5,nrow(x.in)/10),rep(6,nrow(x.in)/10),
@@ -762,15 +772,15 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
     lbd = lam.seq[order(apply(mse.stack,1,mean))[1]]
   }else{lbd=lam.seq}
   # --- Initialize the Coefficients
-  coeffs = Variable(ncol(x.in))
+  coeffs = CVXR::Variable(ncol(x.in))
   # --- Define the Loss-Function
-  loss = Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(diff(shrinkw*coeffs)^2))
+  loss = CVXR::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(diff(shrinkw*coeffs)^2))
   # --- Set the constraints
   constr = list(coeffs >=0,t(coeffs)%*%apply(x.in,2,mean) ==mean(y.in))
   # --- Set the Problem
-  prob = Problem(loss,constr)
+  prob = CVXR::Problem(loss,constr)
   # --- Solve the Problem
-  sol = solve(prob, solver="SCS")
+  sol = CVXR::solve(prob)
   # --- Get the betas
   beta = sol$getValue(coeffs)
   
