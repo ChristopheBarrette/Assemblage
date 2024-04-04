@@ -539,7 +539,6 @@ weight.transformation = function( x.weight, x.comps, moving.average){
 #' @param x.in The features matrix
 #' @param standardize.values Standardize the response variables 
 #' @rdname nonneg.ridge
-#' @return Coefficients
 #' @export 
 nonneg.ridge = function( y.in, x.in, standardize.values){
   
@@ -587,7 +586,6 @@ nonneg.ridge = function( y.in, x.in, standardize.values){
 #' @param lambda.grid.C Personalize lambda grid
 #' @param ncores Number of cores to run the code, helps for glmnet function. (default is 1)
 #' @rdname nonneg.ridge.sum1
-#' @return Coefficients
 #' @export 
 nonneg.ridge.sum1 = function( y.in, x.in, x.weights, standardize.values, lambda.grid.C=c(),ncores=1){
   
@@ -693,7 +691,6 @@ nonneg.ridge.sum1 = function( y.in, x.in, x.weights, standardize.values, lambda.
 #' @param lambda.grid.C Personalize lambda grid
 #' @param ncores Number of cores to run the code, helps for glmnet function. (default is 1)
 #' @rdname nonneg.ridge.meanD
-#' @return Coefficients
 #' @export 
 nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c(),ncores=1){
   
@@ -789,7 +786,6 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
 #' @param lambda.grid.C Personalize lambda grid
 #' @param ncores Number of cores to run the code, helps for glmnet function. (default is 1)
 #' @rdname nonneg.ridge.mean
-#' @return Coefficients
 #' @export 
 nonneg.ridge.mean = function( y.in, x.in, standardize.values, lambda.grid.C=c(), ncores=1){
   
@@ -882,7 +878,6 @@ nonneg.ridge.mean = function( y.in, x.in, standardize.values, lambda.grid.C=c(),
 #' @param end.ooo Number of iterations
 #' @param start.time When the expanding window started
 #' @rdname Time.function
-#' @return Coefficients
 #' @export 
 Time.function = function(ooo, end.ooo,start.time ){
   
