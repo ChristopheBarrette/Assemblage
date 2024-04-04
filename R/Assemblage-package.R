@@ -19,6 +19,8 @@ usethis::use_package("iterators")
 usethis::use_package("datasets")
 usethis::use_package("base")
 usethis::use_package("utils")
-#devtools::build_readme()
+
 #usethis::use_news_md()
 #usethis::use_readme_rmd()
+#usethis::use_namespace()
+
