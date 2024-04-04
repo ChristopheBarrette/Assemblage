@@ -20,7 +20,6 @@ library(Assemblage)
 gen_path="~/"  #Specific to the computer
 #Relative to gen path
 wd_data =paste(gen_path,"data/",sep="")
-wd_function=paste(gen_path,"function/",sep="")
 
 cores = 1
 
