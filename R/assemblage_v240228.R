@@ -1507,13 +1507,31 @@ prediction.OOS = function(assemblage.info, rank.OOS, comp.OOS, Bench.OOS, pred.Y
       pred.Bench.OOS = Bench.OOS %*% t(assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.Bench"]])
     }
     if (sum(model.select == 'blend') > 0) {
-      pred.blend.OOS = cbind(Bench.OOS,comp.OOS,rank.OOS) %*% t(assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]])
+      if (sum(model.select == 'comp') > 0 & sum(model.select == 'rank') > 0) {
+        pred.blend.OOS = cbind(Bench.OOS,comp.OOS,rank.OOS) %*% t(assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]])
+      }else{
+        if (sum(model.select == 'rank') > 0) {
+          pred.blend.OOS = cbind(Bench.OOS,rank.OOS) %*% t(assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]])
+        }
+        if (sum(model.select == 'comp') > 0) {
+          pred.blend.OOS = cbind(Bench.OOS,comp.OOS) %*% t(assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]])
+        }
+      }
     }
   }else{ # --- NO
     # --- Be sure the estimation didn't had benchmarks 
     if (sum(model.select == 'blend') > 0) {
       ncolBlend = length(assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]])
-      pred.blend.OOS = cbind(comp.OOS,rank.OOS) %*% assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]][max(1,(ncolBlend-ncol(cbind(comp.OOS,rank.OOS))+1)):ncolBlend]
+      if (sum(model.select == 'comp') > 0 & sum(model.select == 'rank') > 0) {
+        pred.blend.OOS = cbind(comp.OOS,rank.OOS) %*% assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]][max(1,(ncolBlend-ncol(cbind(comp.OOS,rank.OOS))+1)):ncolBlend]
+      }else{
+        if (sum(model.select == 'rank') > 0) {
+          pred.blend.OOS = cbind(rank.OOS) %*% assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]][max(1,(ncolBlend-ncol(cbind(rank.OOS))+1)):ncolBlend]
+        }
+        if (sum(model.select == 'comp') > 0) {
+          pred.blend.OOS = cbind(comp.OOS) %*% assemblage.info[["All.in.sample.info"]][["Coefficients"]][["Mod.blend"]][max(1,(ncolBlend-ncol(cbind(comp.OOS))+1)):ncolBlend]
+        }
+      }
     }
   }
   
