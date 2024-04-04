@@ -764,7 +764,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # --- Initialize the Coefficients
   coeffs = CVXR::Variable(ncol(x.in))
   # --- Define the Loss-Function 
-  loss = CVXR::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum((shrinkw*coeffs)^2))
+  loss = CVXR::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(CVXR::diff(shrinkw*coeffs)^2))
   # --- Set the constraints
   constr = list(coeffs >=0,t(coeffs)%*%apply(x.in,2,mean) ==mean(y.in))
   # --- Set the Problem
