@@ -706,17 +706,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # ncores = Number of cores to run the code, helps for glmnet function. (default is 1)
   #
   ################################################    
-  library(glmnet)
-  library(pracma)
-  library(CVXR)
-  library(foreach)
-  library(doParallel)
-  library(stats)
-  library(methods)
-  library(Matrix)
-  library(iterators)
-  library(datasets)
-  library(base)
+
   # --- Create folds for cross-validation
   fd=c(rep(1,nrow(x.in)/10),rep(2,nrow(x.in)/10),rep(3,nrow(x.in)/10),
        rep(4,nrow(x.in)/10),rep(5,nrow(x.in)/10),rep(6,nrow(x.in)/10),
@@ -755,7 +745,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
         # --- Set the Problem
         prob <- Problem(loss, constr)
         # --- Solve the Problem
-        sol <- solve(prob)
+        sol <- solve(prob, solver="SCS")
         # --- Get the betas
         beta <- sol$getValue(coeffs)
         # --- MSE on the hold out set
