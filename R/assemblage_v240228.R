@@ -737,13 +737,13 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
         # --- Hold Out Period:
         d.out <- c(which(fd == ff))
         # --- Initialize the Coefficients
-        coeffs <- CVXR::Variable(ncol(x.in))
+        coeffs <- CVXR::Variable(ncol(x.in),1)
         # --- Define the Loss-Function
         loss = CVXR::Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(diff(shrinkw*coeffs)^2))
         # --- Set the constraints
         constr = list(coeffs >=0,t(coeffs)%*%apply(x.in,2,mean) ==mean(y.in))
         # --- Set the Problem
-        prob <- CVXR::Problem(loss, constr)
+        prob <- CVXR::Problem(objective=loss,constraints =  constr)
         # --- Solve the Problem
         sol <- CVXR::solve(prob)
         # --- Get the betas
@@ -762,13 +762,13 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
     lbd = lam.seq[order(apply(mse.stack,1,mean))[1]]
   }else{lbd=lam.seq}
   # --- Initialize the Coefficients
-  coeffs = CVXR:::Variable(ncol(x.in))
+  coeffs = CVXR::Variable(ncol(x.in))
   # --- Define the Loss-Function
-  loss = CVXR:::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(diff(shrinkw*coeffs)^2))
+  loss = CVXR::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(diff(shrinkw*coeffs)^2))
   # --- Set the constraints
   constr = list(coeffs >=0,t(coeffs)%*%apply(x.in,2,mean) ==mean(y.in))
   # --- Set the Problem
-  prob =CVXR:::Problem(loss,constr)
+  prob =CVXR::Problem(loss,constr)
   # --- Solve the Problem
   sol = CVXR::solve(prob)
   # --- Get the betas
