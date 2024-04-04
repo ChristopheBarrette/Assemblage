@@ -691,6 +691,10 @@ nonneg.ridge.sum1 = function( y.in, x.in, x.weights, standardize.values, lambda.
 #' @param lambda.grid.C Personalize lambda grid
 #' @param ncores Number of cores to run the code, helps for glmnet function. (default is 1)
 #' @rdname nonneg.ridge.meanD
+#' @importFrom CVXR solve
+#' @importFrom CVXR Variable
+#' @importFrom CVXR Problem
+#' @importFrom CVXR Minimize
 #' @export 
 nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c(),ncores=1){
   
@@ -786,6 +790,10 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
 #' @param lambda.grid.C Personalize lambda grid
 #' @param ncores Number of cores to run the code, helps for glmnet function. (default is 1)
 #' @rdname nonneg.ridge.mean
+#' @importFrom CVXR solve
+#' @importFrom CVXR Variable
+#' @importFrom CVXR Problem
+#' @importFrom CVXR Minimize
 #' @export 
 nonneg.ridge.mean = function( y.in, x.in, standardize.values, lambda.grid.C=c(), ncores=1){
   
