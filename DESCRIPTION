@@ -23,9 +23,15 @@ Imports:
     doParallel,
     foreach,
     glmnet,
+    graphics,
+    grDevices,
     iterators,
     Matrix,
     methods,
+    parallel,
     pracma,
     stats,
     utils
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
