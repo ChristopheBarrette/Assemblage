@@ -745,9 +745,9 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
         # --- Set the Problem
         prob <- Problem(loss, constr)
         # --- Solve the Problem
-        sol <- solve(prob, solver = "ECOS", verbose = TRUE)
+        sol <- CVXR::solve(prob)
         # --- Get the betas
-        beta <- matrix(sol$getValue(coeffs), ncol = 1)
+        beta <- sol$getValue(coeffs)
         # --- MSE on the hold out set
         mse.stack[lam, ff] <- as.numeric(mean((y.in[d.out] - x.in[d.out,] %*% beta)^2))
       }
@@ -770,9 +770,9 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # --- Set the Problem
   prob = Problem(loss,constr)
   # --- Solve the Problem
-  sol = solve(prob, solver = "ECOS", verbose = TRUE)
+  sol = CVXR::solve(prob)
   # --- Get the betas
-  beta = matrix(sol$getValue(coeffs), ncol = 1)
+  beta = sol$getValue(coeffs)
   
   return(as.numeric(beta))
   
