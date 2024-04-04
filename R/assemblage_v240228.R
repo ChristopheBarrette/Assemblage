@@ -975,7 +975,13 @@ assemblage.estimation.RW = function( y, x, bench, assemblage.info, moving.averag
     # --- Assign the feature for the blend model and save the matrix
     if(sum(model.select=='blend')>0){
       x.bench =assemblage.info[['bench.info']][['x.bench.ma']]
-      x.blend = cbind(x.bench,x.comps,x.ranks)
+      x.blend = x.bench
+      if(sum(model.select=='comp')>0){
+        x.blend = cbind(x.blend,x.comps)
+      }
+      if(sum(model.select=='rank')>0){
+        x.blend = cbind(x.blend,x.ranks)
+      }
       assemblage.info[['x.info']][['x.blend.ma']] =x.blend
     }
     
@@ -987,7 +993,14 @@ assemblage.estimation.RW = function( y, x, bench, assemblage.info, moving.averag
   }else{ # --- NO
     # --- Assign the feature for the blend model and save the matrix
     if(sum(model.select=='blend')>0){
-      x.blend = cbind(x.comps,x.ranks)
+      if(sum(model.select=='comp')>0){
+        x.blend = x.comps
+        if(sum(model.select=='rank')>0){
+          x.blend = cbind(x.blend,x.ranks)
+        }
+      }else if(sum(model.select=='blend')==0 & sum(model.select=='rank')>0){
+        x.blend = x.ranks
+      }
       assemblage.info[['x.info']][['x.blend.ma']] =x.blend
     }
     
