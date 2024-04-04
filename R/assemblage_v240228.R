@@ -749,13 +749,13 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
         # --- Initialize the Coefficients
         coeffs <- Variable(ncol(x.in))
         # --- Define the Loss-Function
-        loss = CVXR::Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(diff(shrinkw*coeffs)^2))
+        loss = Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(diff(shrinkw*coeffs)^2))
         # --- Set the constraints
         constr = list(coeffs >=0,t(coeffs)%*%apply(x.in,2,mean) ==mean(y.in))
         # --- Set the Problem
-        prob <- CVXR::Problem(loss, constr)
+        prob <- Problem(loss, constr)
         # --- Solve the Problem
-        sol <- CVXR::solve(prob,solver = 'ECOS')
+        sol <- solve(prob)
         # --- Get the betas
         beta <- sol$getValue(coeffs)
         # --- MSE on the hold out set
@@ -780,10 +780,10 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # --- Set the Problem
   prob = Problem(loss,constr)
   # --- Solve the Problem
-  sol = solve(prob)
+  sol = CVXR::solve(prob)
   # --- Get the betas
-  #beta = sol$getValue(coeffs)
-  beta=1:10
+  beta = sol$getValue(coeffs)
+  
   return(as.numeric(beta))
   
 }
