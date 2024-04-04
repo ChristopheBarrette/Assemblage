@@ -642,17 +642,17 @@ nonneg.ridge.sum1 = function( y.in, x.in, x.weights, standardize.values, lambda.
         # --- Hold Out Period:
         d.out <- c(which(fd == ff))
         # --- Initialize the Coefficients
-        coeffs <- Variable(ncol(x.in))
+        coeffs <- CVXR::Variable(ncol(x.in))
         # --- Define the Loss-Function
-        loss = Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(shrinkw*(coeffs-x.weights)^2))
+        loss = CVXR::Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(shrinkw*(coeffs-x.weights)^2))
         # --- Set the constraints
         constr = list(coeffs >=0,sum(coeffs)==1)
         # --- Set the Problem
-        prob <- Problem(loss, constr)
+        prob <- CVXR::Problem(loss, constr)
         # --- Solve the Problem
-        sol <- solve(prob)
+        sol <- CVXR::solve(prob)
         # --- Get the betas
-        beta <- sol$getValue(coeffs)
+        beta <-  sol$getValue(coeffs)
         # --- MSE on the hold out set
         mse.stack[lam, ff] <- as.numeric(mean((y.in[d.out] - x.in[d.out,] %*% beta)^2))
       }
@@ -667,15 +667,15 @@ nonneg.ridge.sum1 = function( y.in, x.in, x.weights, standardize.values, lambda.
     lbd = lam.seq[order(apply(mse.stack,1,mean))[1]]
   }else{lbd=lam.seq}
   # --- Initialize the Coefficients
-  coeffs = Variable(ncol(x.in))
+  coeffs = CVXR::Variable(ncol(x.in))
   # --- Define the Loss-Function
-  loss = Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(shrinkw*(coeffs-x.weights)^2))
+  loss = CVXR::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(shrinkw*(coeffs-x.weights)^2))
   # --- Set the constraints
   constr = list(coeffs >=0,sum(coeffs)==1)
   # --- Set the Problem
-  prob = Problem(loss,constr)
+  prob = CVXR::Problem(loss,constr)
   # --- Solve the Problem
-  sol = solve(prob)
+  sol = CVXR::solve(prob)
   # --- Get the betas
   beta = sol$getValue(coeffs)
   
@@ -706,20 +706,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # ncores = Number of cores to run the code, helps for glmnet function. (default is 1)
   #
   ################################################    
-  library(doParallel)
-  library(parallel)
-  library(iterators)
-  library(foreach)
-  library(CVXR)
-  library(pracma)
-  library(glmnet)
-  library(Matrix)
-  library(stats)
-  library(graphics)
-  library(grDevices)
-  library(utils)
-  library(datasets)
-  library(methods)
+
   # --- Create folds for cross-validation
   fd=c(rep(1,nrow(x.in)/10),rep(2,nrow(x.in)/10),rep(3,nrow(x.in)/10),
        rep(4,nrow(x.in)/10),rep(5,nrow(x.in)/10),rep(6,nrow(x.in)/10),
@@ -750,7 +737,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
         # --- Hold Out Period:
         d.out <- c(which(fd == ff))
         # --- Initialize the Coefficients
-        coeffs <- CVXR::Variable(ncol(x.in),1)
+        coeffs <- CVXR::Variable(ncol(x.in))
         # --- Define the Loss-Function
         loss = CVXR::Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(diff(shrinkw*coeffs)^2))
         # --- Set the constraints
@@ -845,15 +832,15 @@ nonneg.ridge.mean = function( y.in, x.in, standardize.values, lambda.grid.C=c(),
         # --- Hold Out Period:
         d.out <- c(which(fd == ff))
         # --- Initialize the Coefficients
-        coeffs <- Variable(ncol(x.in))
+        coeffs <- CVXR::Variable(ncol(x.in))
         # --- Define the Loss-Function
-        loss = Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(shrinkw*(coeffs)^2))
+        loss = CVXR::Minimize(sum((y.in[d.in]-x.in[d.in,]%*%coeffs)^2)+lam.seq[lam]*sum(shrinkw*(coeffs)^2))
         # --- Set the constraints
         constr <- list(coeffs >= 0, t(coeffs) %*% apply(x.in, 2, mean) == mean(y.in))
         # --- Set the Problem
-        prob <- Problem(loss, constr)
+        prob <- CVXR::Problem(loss, constr)
         # --- Solve the Problem
-        sol <- solve(prob)
+        sol <- CVXR::solve(prob)
         # --- Get the betas
         beta <- sol$getValue(coeffs)
         # --- MSE on the hold out set
@@ -869,15 +856,15 @@ nonneg.ridge.mean = function( y.in, x.in, standardize.values, lambda.grid.C=c(),
     lbd = lam.seq[order(apply(mse.stack,1,mean))[1]]
   }else{lbd=lam.seq}
   # --- Initialize the Coefficients
-  coeffs = Variable(ncol(x.in))
+  coeffs = CVXR::Variable(ncol(x.in))
   # --- Define the Loss-Function
-  loss = Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(shrinkw*(coeffs)^2))
+  loss = CVXR::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(shrinkw*(coeffs)^2))
   # --- Set the constraints
   constr = list(coeffs >=0,t(coeffs)%*%apply(x.in,2,mean) ==mean(y.in))
   # --- Set the Problem
-  prob = Problem(loss,constr)
+  prob = CVXR::Problem(loss,constr)
   # --- Solve the Problem
-  sol = solve(prob)
+  sol = CVXR::solve(prob)
   # --- Get the betas
   beta = sol$getValue(coeffs)
   
