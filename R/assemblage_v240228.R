@@ -780,7 +780,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # --- Set the Problem
   prob = Problem(loss,constr)
   # --- Solve the Problem
-  sol = CVXR::solve(prob,solver = 'ECOS')
+  sol = solve(prob,solver = 'ECOS')
   # --- Get the betas
   #beta = sol$getValue(coeffs)
   beta=1:10
