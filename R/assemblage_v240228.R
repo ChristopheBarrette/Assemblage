@@ -706,7 +706,20 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # ncores = Number of cores to run the code, helps for glmnet function. (default is 1)
   #
   ################################################    
-
+  library(doParallel)
+  library(parallel)
+  library(iterators)
+  library(foreach)
+  library(CVXR)
+  library(pracma)
+  library(glmnet)
+  library(Matrix)
+  library(stats)
+  library(graphics)
+  library(grDevices)
+  library(utils)
+  library(datasets)
+  library(methods)
   # --- Create folds for cross-validation
   fd=c(rep(1,nrow(x.in)/10),rep(2,nrow(x.in)/10),rep(3,nrow(x.in)/10),
        rep(4,nrow(x.in)/10),rep(5,nrow(x.in)/10),rep(6,nrow(x.in)/10),
