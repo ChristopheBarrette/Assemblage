@@ -691,10 +691,6 @@ nonneg.ridge.sum1 = function( y.in, x.in, x.weights, standardize.values, lambda.
 #' @param lambda.grid.C Personalize lambda grid
 #' @param ncores Number of cores to run the code, helps for glmnet function. (default is 1)
 #' @rdname nonneg.ridge.meanD
-#' @importFrom CVXR solve
-#' @importFrom CVXR Variable
-#' @importFrom CVXR Problem
-#' @importFrom CVXR Minimize
 #' @export 
 nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c(),ncores=1){
   
@@ -766,15 +762,15 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
     lbd = lam.seq[order(apply(mse.stack,1,mean))[1]]
   }else{lbd=lam.seq}
   # --- Initialize the Coefficients
-  coeffs = CVXR::Variable(ncol(x.in))
+  coeffs = CVXR:::Variable(ncol(x.in))
   # --- Define the Loss-Function
-  loss = CVXR::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(diff(shrinkw*coeffs)^2))
+  loss = CVXR:::Minimize(sum((y.in-x.in%*%coeffs)^2)+lbd*sum(diff(shrinkw*coeffs)^2))
   # --- Set the constraints
   constr = list(coeffs >=0,t(coeffs)%*%apply(x.in,2,mean) ==mean(y.in))
   # --- Set the Problem
-  prob =CVXR::Problem(loss,constr)
+  prob =CVXR:::Problem(loss,constr)
   # --- Solve the Problem
-  sol = CVXR::solve(prob)
+  sol = CVXR:::solve(prob)
   # --- Get the betas
   beta = sol$getValue(coeffs)
   
@@ -790,10 +786,6 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
 #' @param lambda.grid.C Personalize lambda grid
 #' @param ncores Number of cores to run the code, helps for glmnet function. (default is 1)
 #' @rdname nonneg.ridge.mean
-#' @importFrom CVXR solve
-#' @importFrom CVXR Variable
-#' @importFrom CVXR Problem
-#' @importFrom CVXR Minimize
 #' @export 
 nonneg.ridge.mean = function( y.in, x.in, standardize.values, lambda.grid.C=c(), ncores=1){
   
