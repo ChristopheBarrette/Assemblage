@@ -745,7 +745,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
         # --- Set the Problem
         prob <- Problem(loss, constr)
         # --- Solve the Problem
-        sol <- solve(prob, solver="SCS")
+        sol <- solve(prob)
         # --- Get the betas
         beta <- sol$getValue(coeffs)
         # --- MSE on the hold out set
@@ -770,7 +770,7 @@ nonneg.ridge.meanD = function( y.in, x.in, standardize.values, lambda.grid.C=c()
   # --- Set the Problem
   prob = Problem(loss,constr)
   # --- Solve the Problem
-  sol = psolve(prob)
+  sol = solve(prob, solver="SCS")
   # --- Get the betas
   beta = sol$getValue(coeffs)
   
