@@ -23,6 +23,7 @@
 #' @param model.select Select the model to run 'rank' = rank space ,'comp' = component space, 'blend' = blend rank/comp/bench ,'Bench'= benchmark without intercept, 'BInt' = benchmark with Intercept,'ALL' (default is 'ALL')
 #' @param all.sample.fit Do an estimation using all the data set as training (default is FALSE)
 #' @param Progression Give feedback on the estimation. (default 0) 0 = No feedback, 1 = Print each iteration, 2 = Print after every model estimation & each iteration
+#' @param Packages Automatically update the required packages. (default TRUE) 
 #' @return Return a list containing the loadings, the features, the fitted values and more.
 #' @details When running the code, it's possible to utilize the bypassing option, ensuring all available observations are considered within the desired moving average unit. This entails saving various crucial variables: assemblage.info[['x.info']][['x.ranks.ma']] for the x.rank matrix, assemblage.info[['x.info']][['x.comps.ma']] for the x matrix, assemblage.info[['x.info']][['x.weights']] for the x.weight matrix, and assemblage.info[['bench.info']][['x.bench.ma']] for the bench matrix. It's important to note that y will retain its original matrix. Subsequently, executing a loop using the 'assemblage' function becomes feasible, utilizing the aforementioned variables and setting the 'moving.average' option as 'c()'.
 #' @rdname assemblage
@@ -32,7 +33,7 @@ assemblage = function( y, x, bench=c(), x.weight=c(), x.rank=c(), train.size=1, 
                      horizon.gap=0, window.size=c(), step.estim.window = 1, standardize.values = TRUE, 
                      coef.sum.1 = TRUE, cores=1, rank.OOS=c(),comp.OOS=c(),Bench.OOS=c(), 
                      pred.Y.OOS=c(), lambda.grid.C=c(), model.select=c('ALL'),
-                     all.sample.fit=FALSE, Progression=0){
+                     all.sample.fit=FALSE, Progression=0,Packages=TRUE){
  
 # assemblage main function version 29-02-2024
   
@@ -128,29 +129,38 @@ assemblage = function( y, x, bench=c(), x.weight=c(), x.rank=c(), train.size=1, 
   InstalledPKGs <- names(installed.packages()[,'Package'])
   
   # Define the packages you want to install
-  myPKGs <- c("glmnet", "pracma", "CVXR", "foreach", "doParallel",'stats','methods','Matrix'
-              ,'iterators','datasets','base')
+  myPKGs <- c("doParallel", "parallel", "iterators", "foreach",
+              "CVXR", "pracma", "glmnet", "Matrix", "stats",
+              "graphics", "grDevices", "utils", "datasets", "methods")
   
   # Identify packages that are not installed
   InstallThesePKGs <- myPKGs[!myPKGs %in% InstalledPKGs]
+  UpdateThesePKGs <- myPKGs[myPKGs %in% InstalledPKGs]
+  rm(InstalledPKGs)
   
   # If there are packages to install, install them
   if (length(InstallThesePKGs) > 0) {
     install.packages(InstallThesePKGs, repos = "http://cran.us.r-project.org")
   }
-
+  
+  # Update the packages
+  if (length(UpdateThesePKGs) > 0 & Packages) {
+    # Get the list of available packages
+    available_pkgs <- available.packages(repos = "http://cran.us.r-project.org")
+   for (pkg in UpdateThesePKGs) {
+     if (pkg %in% rownames(available_pkgs)) {
+       if (packageVersion(pkg) < package_version(available_pkgs[pkg, "Version"])) {
+         install.packages(pkg, repos = "http://cran.us.r-project.org", update = TRUE)
+       }
+     }
+   }
+    rm(available_pkgs)
+  }
+  
   # load packages
-  library(glmnet)
-  library(pracma)
-  library(CVXR)
-  library(foreach)
-  library(doParallel)
-  library(stats)
-  library(methods)
-  library(Matrix)
-  library(iterators)
-  library(datasets)
-  library(base)
+  for (pkg in myPKGs) {
+    library(pkg, character.only = TRUE)
+  }
   
 # --- Set the cores for glmnet
 ncores=cores
