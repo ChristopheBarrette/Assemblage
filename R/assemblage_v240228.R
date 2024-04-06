@@ -1258,7 +1258,11 @@ assemblage.estimation.RW = function( y, x, bench, assemblage.info, moving.averag
       Coefficients[['Mod.Bench']] <- coefficients.Bench
     }
     
-    poos.prediction=poos.prediction[,c(TRUE,c('blend','rank','comp','BInt','Bench')%in%model.select)]
+    if(!is.null(bench)) {
+      poos.prediction=poos.prediction[,c(TRUE,c('blend','rank','comp','BInt','Bench')%in%model.select)]
+    }else{
+      poos.prediction=poos.prediction[,c(TRUE,c('blend','rank','comp')%in%model.select)]
+    }
     
     assemblage.info[['Pseudo.OOS.info']]=list('Prediction'=poos.prediction,'Coefficients'=Coefficients,
                                               'Start.POOS'= rownames(x)[min(nrow(x), end.in.sample + 1)] )
