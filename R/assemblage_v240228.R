@@ -496,6 +496,9 @@ weight.transformation = function( x.weight, x.comps, moving.average){
       return(break)
       
     }else{
+      # --- fill the NAs
+      x.weight[is.na(x.weight)]= 1/ncol(x.weight)
+      
       # ---  Replicate the vector and do (x.weight/sum(x.weight)) to be sure they sum to 1
       x.Weight= matrix(rep((x.weight/sum(x.weight)), each = nrow(x.comps)), ncol = length(x.weight), byrow = FALSE)
     }
@@ -509,7 +512,7 @@ weight.transformation = function( x.weight, x.comps, moving.average){
       
     }else{
       
-      x.Weight=x.weight
+      x.Weight=as.matrix(x.weight)
       
       # --- fill the NAs
       x.Weight[is.na(x.Weight)]= 1/ncol(x.weight)
