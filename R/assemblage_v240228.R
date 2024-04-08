@@ -976,6 +976,8 @@ assemblage.estimation.RW = function( y, x, bench, assemblage.info, moving.averag
   if(sum(model.select=='comp')>0){
     x.comps =assemblage.info[['x.info']][['x.comps.ma']]
     x.weights =assemblage.info[['x.info']][['x.weights']]
+  }else if(!is.null(moving.average)){
+    x.comps =assemblage.info[['x.info']][['x.comps.ma']]
   }
   
   # --- Are there benchmarks
