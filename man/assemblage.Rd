@@ -25,7 +25,8 @@ assemblage(
   lambda.grid.C = c(),
   model.select = c("ALL"),
   all.sample.fit = FALSE,
-  Progression = 0
+  Progression = 0,
+  Packages = TRUE
 )
 }
 \arguments{
@@ -39,7 +40,7 @@ assemblage(
 
 \item{x.rank}{The rank matrix already pre-sorted and follows the correct moving.average format (default is empty). If utilized, the y, x, bench, x.weight, and x.rank inputs must already be in the correct format, and the moving.average must be set as c().}
 
-\item{train.size}{The endpoint of the training sample (default is 1), which defines the beginning of the out-of-sample period for calculation of the RMSE.If train.size is less than or equal to 1, it represents the proportion of observations to use. If greater than 1, it signifies the index of the last row used in the in-sample training set.}
+\item{train.size}{The endpoint of the training sample (default is 1) defines the beginning of the out-of-sample period for calculation of the RMSE. If train.size is less than or equal to 1 (i.e., a fraction), it represents the proportion of observations to use in the in-sample estimation. Alternatively, if it is greater than 1 (e.g., 240), it signifies the index of the last row used in the in-sample training set. For instance, if the dataset comprises 300 rows and train.size is set to 240, 80\% of the dataset would be used for the in-sample estimation.}
 
 \item{moving.average}{This parameter governs the transformation of the x matrix. (default is 1) If set to 1, the x matrix will keep the Month over Month format. Setting it to 3 corresponds to Quarter over Quarter analysis, while 12 corresponds Year over Year analysis. If left empty (using c()), the y, x, bench, x.weight, and x.rank inputs are expected to be in the correct format beforehand. Opting for this choice reduces estimation time by bypassing the transformation step.}
 
@@ -51,9 +52,9 @@ assemblage(
 
 \item{standardize.values}{Standardize the response variables (default is TRUE)}
 
-\item{coef.sum.1}{Does the coefficients need to sum to one (default is TRUE)}
+\item{coef.sum.1}{Does the coefficients need to sum to one, only affects comp and Bench models. (default is TRUE)}
 
-\item{cores}{Number of cores to run the code, helps for glmnet function. (default is 1)}
+\item{cores}{Number of cores to run the code, helps for glmnet function and cross-validation. (default is 1)}
 
 \item{rank.OOS}{Xrank matrix for out-of-sample forecast using the coefficients that used all the data set for training. (Matrix will undergo no transformation) (default is c())}
 
@@ -70,9 +71,11 @@ assemblage(
 \item{all.sample.fit}{Do an estimation using all the data set as training (default is FALSE)}
 
 \item{Progression}{Give feedback on the estimation. (default 0) 0 = No feedback, 1 = Print each iteration, 2 = Print after every model estimation & each iteration}
+
+\item{Packages}{Automatically update the required packages. (default TRUE)}
 }
 \value{
-Return a list containing the loadings, the features, the fitted values and more.
+Return a list containing the loadings, features, fitted values and more. With the predictions and fitted values at the moving.average frequency specified by the user.
 }
 \description{
 Assemblage Regression represents a specialized form of generalized nonnegative ridge regression, designed to optimize the weights of subcomponents to maximize the predictive capability of the aggregate.

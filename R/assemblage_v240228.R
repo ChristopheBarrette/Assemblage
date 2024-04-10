@@ -35,7 +35,7 @@ assemblage = function( y, x, bench=c(), x.weight=c(), x.rank=c(), train.size=1, 
                      pred.Y.OOS=c(), lambda.grid.C=c(), model.select=c('ALL'),
                      all.sample.fit=FALSE, Progression=0,Packages=TRUE){
  
-# assemblage main function version 29-02-2024
+# assemblage main function version 10-04-2024
   
 ################################################################
 ############################ Legend ############################
