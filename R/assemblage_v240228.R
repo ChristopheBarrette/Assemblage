@@ -54,11 +54,12 @@ assemblage = function( y, x, bench=c(), x.weight=c(), x.rank=c(), train.size=1, 
 #          If utilized, the y, x, bench, x.weight, and x.rank inputs must already be in the correct format, 
 #          and the moving.average must be set as c().
 #
-# train.size = The endpoint of the training sample (default is 1), which defines 
-#              the beginning of the out-of-sample period for calculation of the RMSE. 
-#              If train.size is less than or equal to 1, it represents the proportion 
-#              of observations to use. If greater than 1, it signifies the index of 
-#              the last row used in the in-sample training set.
+# train.size = The endpoint of the training sample (default is 1) defines the beginning of the out-of-sample 
+#              period for calculation of the RMSE. If train.size is less than or equal to 1 (i.e., a fraction), 
+#              it represents the proportion of observations to use in the in-sample estimation. Alternatively, 
+#              if it is greater than 1 (e.g., 240), it signifies the index of the last row used in the in-sample 
+#              training set. For instance, if the dataset comprises 300 rows and train.size is set to 240, 80% 
+#              of the dataset would be used for the in-sample estimation.
 #
 # moving.average = This parameter governs the transformation of the x matrix. (default is 1)
 #                  If set to 1, the x matrix will keep the Month over Month format. 
